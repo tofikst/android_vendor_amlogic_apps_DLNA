@@ -1,13 +1,19 @@
-/**
- * @Package com.droidlogic.mediacenter
- * @Description Copyright (c) Inspur Group Co., Ltd. Unpublished Inspur Group
- *              Co., Ltd. Proprietary & Confidential This source code and the
- *              algorithms implemented therein constitute confidential
- *              information and may comprise trade secrets of Inspur or its
- *              associates, and any use thereof is subject to the terms and
- *              conditions of the Non-Disclosure Agreement pursuant to which
- *              this source code was originally received.
- */
+/******************************************************************
+*
+*Copyright (C) 2016  Amlogic, Inc.
+*
+*Licensed under the Apache License, Version 2.0 (the "License");
+*you may not use this file except in compliance with the License.
+*You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+*Unless required by applicable law or agreed to in writing, software
+*distributed under the License is distributed on an "AS IS" BASIS,
+*WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+*See the License for the specific language governing permissions and
+*limitations under the License.
+******************************************************************/
 package com.droidlogic.mediacenter.dlna;
 
 import java.lang.Integer;
@@ -970,6 +976,8 @@ public class MusicPlayer extends Activity implements OnPreparedListener,
                                         intent.setAction ( MediaRendererDevice.PLAY_STATE_SETVOLUME );
                                         intent.putExtra ( "VOLUME", volume_level );
                                         sendBroadcast ( intent );
+                                        handlerUI.removeMessages(VOLUME_HIDE);
+                                        handlerUI.sendEmptyMessageDelayed(VOLUME_HIDE, DIALOG_SHOW_DELAY);
                                     }
                                 }
                             }
@@ -1077,7 +1085,7 @@ public class MusicPlayer extends Activity implements OnPreparedListener,
                         String uri = intent.getStringExtra ( AmlogicCP.EXTRA_MEDIA_URI );
                         mNextURI= intent.getStringExtra(MediaRendererDevice.EXTRA_NEXT_URI);
                         mCurrentMeta = intent.getStringExtra(MediaRendererDevice.EXTRA_META_DATA);
-                        android.util.Log.d(TAG,"cur_uri:"+cur_uri+"uri"+uri+"=?"+cur_uri.equals ( uri )+"mNextURI:"+mNextURI);
+                        Debug.d(TAG,"cur_uri:"+cur_uri+"uri"+uri+"=?"+cur_uri.equals ( uri )+"mNextURI:"+mNextURI);
                         if ( !cur_uri.equals ( uri ) ) {
                             if ( play_state != STATE_STOP ) {
                                 stopPlayback();
@@ -1422,6 +1430,8 @@ public class MusicPlayer extends Activity implements OnPreparedListener,
                         intent.setAction ( MediaRendererDevice.PLAY_STATE_SETVOLUME );
                         intent.putExtra ( "VOLUME", volume_level );
                         sendBroadcast ( intent );
+                        handlerUI.removeMessages(VOLUME_HIDE);
+                        handlerUI.sendEmptyMessageDelayed(VOLUME_HIDE, DIALOG_SHOW_DELAY);
                         return true;
                     }
                     return super.onKeyDown ( keyCode, event );

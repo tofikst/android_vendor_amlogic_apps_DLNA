@@ -1,18 +1,19 @@
-/**
- * @Package com.droidlogic.mediacenter
- * @Description
- *
- * Copyright (c) Inspur Group Co., Ltd. Unpublished
- *
- * Inspur Group Co., Ltd.
- * Proprietary & Confidential
- *
- * This source code and the algorithms implemented therein constitute
- * confidential information and may comprise trade secrets of Inspur
- * or its associates, and any use thereof is subject to the terms and
- * conditions of the Non-Disclosure Agreement pursuant to which this
- * source code was originally received.
- */
+/******************************************************************
+*
+*Copyright (C) 2016  Amlogic, Inc.
+*
+*Licensed under the Apache License, Version 2.0 (the "License");
+*you may not use this file except in compliance with the License.
+*You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+*Unless required by applicable law or agreed to in writing, software
+*distributed under the License is distributed on an "AS IS" BASIS,
+*WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+*See the License for the specific language governing permissions and
+*limitations under the License.
+******************************************************************/
 package com.droidlogic.mediacenter;
 
 
@@ -63,7 +64,7 @@ public class DMRBroadcastReceiver extends BroadcastReceiver {
             mPrefUtils = new PrefUtils ( cxt );
             /*restart DMRservice when network config changed*/
             Log.d ( TAG ,">>>>>onReceive : onReceive" + intent.getAction());
-            if ( ( ConnectivityManager.CONNECTIVITY_ACTION ).equals ( intent.getAction() ) ) {
+            if ((ConnectivityManager.CONNECTIVITY_ACTION).equals(intent.getAction())) {
                 ConnectivityManager cMgr = ( ConnectivityManager ) cxt.getSystemService ( Context.CONNECTIVITY_SERVICE );
                 NetworkInfo netInfo = ( NetworkInfo ) intent.getExtras ().getParcelable(ConnectivityManager.EXTRA_NETWORK_INFO);
                 NetworkInfo netInfoWIFI = cMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -97,13 +98,13 @@ public class DMRBroadcastReceiver extends BroadcastReceiver {
             }
             //this broadcast is useless than network change
             if ( intent.getAction().equals ( Intent.ACTION_BOOT_COMPLETED ) ) {
-                //SharedPreferences prefs = Utils.getSharedPreferences(cxt);
-                //boolean autostart  = prefs.getBoolean(SettingsPreferences.KEY_BOOT_CFG, false);
-                //SharedPreferences.Editor editor = prefs.edit();
-                //boolean autostart = mPrefUtils.getBooleanVal ( SettingsPreferences.KEY_BOOT_CFG, false );
-                //if ( autostart ) {
-                //cxt.startService(new Intent(cxt,AirPlayService.class));
-                //}
+                SharedPreferences prefs = Utils.getSharedPreferences(cxt);
+                boolean autostart  = prefs.getBoolean(SettingsPreferences.KEY_BOOT_CFG, false);
+                SharedPreferences.Editor editor = prefs.edit();
+                autostart = mPrefUtils.getBooleanVal ( SettingsPreferences.KEY_BOOT_CFG, false );
+                if ( autostart ) {
+                    cxt.startService(new Intent(cxt,AirPlayService.class));
+                }
             }
         }
         private Handler mHandler = new Handler() {
